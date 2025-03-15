@@ -42,11 +42,6 @@ urlpatterns = [
 
 ]
 
-urlpatterns += static(
-    settings.STATIC_URL,
-    document_root=settings.STATIC_ROOT
-)
-
 if os.environ.get('INSPECT', 'false').lower() == 'true':
     urlpatterns.append(
         path('cmd/', cmd),
