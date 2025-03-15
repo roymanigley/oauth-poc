@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import logging
+import l4py
 import os
 from pathlib import Path
 
@@ -186,5 +188,12 @@ STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+
+LOGGING = l4py.LogConfigBuilderDjango()\
+    .django_log_level(logging.INFO)\
+    .add_logger('apps', logging.INFO)\
+    .add_logger('config', logging.INFO)\
+    .file_enabled(False)\
+    .build_config()
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
