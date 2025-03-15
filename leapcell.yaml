@@ -1,5 +1,5 @@
 runtime: python
-startCommand: gunicorn -w 1 -b :8080 conf.wsgi
-buildCommand: apt-get update && apt-get install libpq-dev && pip install -r requirements.txt && python manage.py collectstatic && python manage.py migrate
+startCommand: gunicorn -w 1 -b :8080 config.wsgi
+buildCommand: apt-get update && apt-get install libpq-dev -y && pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate
 port: 8080
 memory: 512mb
