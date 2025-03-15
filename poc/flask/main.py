@@ -29,10 +29,10 @@ class Constants:
         'SCOPES', 'create read update delete openid'
     ).split(' ')
     AUTHORIZATION_BASE_URL = os.environ.get(
-        'AUTHORIZATION_BASE_URL', 'http://127.0.0.1:8000/oauth/authorize/'
+        'AUTHORIZATION_BASE_URL', 'https://oauth-royman.leapcell.app/oauth/authorize/'
     )
     TOKEN_BASE_URL = os.environ.get(
-        'TOKEN_BASE_URL', 'http://127.0.0.1:8000/oauth/token/'
+        'TOKEN_BASE_URL', 'https://oauth-royman.leapcell.app/oauth/token/'
     )
 
 
