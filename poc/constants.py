@@ -24,11 +24,11 @@ class Constants:
         'POC_SCOPES', 'create read update delete openid'
     ).split(' ')
     AUTHORIZATION_BASE_URL = os.environ.get(
-        'POC_AUTHORIZATION_BASE_URL', 'http://localhost:8000/oauth/authorize/'
+        'POC_AUTHORIZATION_BASE_URL', 'https://oauth-royman.leapcell.app/oauth/authorize/'
     )
     TOKEN_BASE_URL = os.environ.get(
-        'POC_TOKEN_BASE_URL', 'http://localhost:8000/oauth/token/'
+        'POC_TOKEN_BASE_URL', 'https://oauth-royman.leapcell.app/oauth/token/'
     )
     API_BASE_URL = os.environ.get(
-        'POC_API_BASE_URL', 'http://localhost:8000/'
+        'POC_API_BASE_URL', 'https://oauth-royman.leapcell.app/'
     )
