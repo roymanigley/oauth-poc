@@ -1,39 +1,16 @@
+#!/usr/bin/env python3
 import random
 import string
 import hashlib
 import base64
 import requests
-import os
+from constants import Constants
 from requests.auth import HTTPBasicAuth
 from cryptography.fernet import Fernet
 
 from flask import Flask, request, render_template
 
 app = Flask('OAuth2 POC')
-
-
-class Constants:
-    FERNET_KEY = os.environ.get(
-        'FERNET_KEY', 'LVpHbm5RbGdvSXMwd3dUU1V5RFhvVDBtc0lyQXc3b0JnZkZmOEV2RnNBQT0='
-    )
-    CLIENT_ID = os.environ.get(
-        'CLIENT_ID', 'poc-authorization'
-    )
-    CLIENT_SECRET = os.environ.get(
-        'CLIENT_SECRET', 'super-secret'
-    )
-    REDIRECT_URI = os.environ.get(
-        'REDIRECT_URI', 'http://127.0.0.1:5000/callback/'
-    )
-    SCOPES = os.environ.get(
-        'SCOPES', 'create read update delete openid'
-    ).split(' ')
-    AUTHORIZATION_BASE_URL = os.environ.get(
-        'AUTHORIZATION_BASE_URL', 'https://oauth-royman.leapcell.app/oauth/authorize/'
-    )
-    TOKEN_BASE_URL = os.environ.get(
-        'TOKEN_BASE_URL', 'https://oauth-royman.leapcell.app/oauth/token/'
-    )
 
 
 class API:
@@ -60,9 +37,19 @@ class API:
         }
         response = requests.post(
             url=Constants.TOKEN_BASE_URL,
-            auth=HTTPBasicAuth(Constants.CLIENT_ID, Constants.CLIENT_SECRET),
+            auth=HTTPBasicAuth(
+                Constants.CLIENT_ID_AUTHORIZATION_CODE,
+                Constants.CLIENT_SECRET_AUTHORIZATION_CODE
+            ),
             data=data,
         )
+        response_tenant = requests.get(
+            url=f'{Constants.API_BASE_URL}/api/tenants/current_tennant/',
+            headers={
+                'Authorization': f'Bearer {response.json()["access_token"]}'
+            }
+        )
+        print(response_tenant.status_code, response_tenant.json())
         return response.json()
 
 
@@ -109,7 +96,7 @@ class Utils:
             'code_challenge': code_challange,
             'state': state,
             'code_challenge_method': 'S256',
-            'client_id': Constants.CLIENT_ID,
+            'client_id': Constants.CLIENT_ID_AUTHORIZATION_CODE,
             'redirect_uri': Constants.REDIRECT_URI,
             'scope': '+'.join(Constants.SCOPES),
         }

@@ -1,9 +1,9 @@
-from rest_framework.viewsets import GenericViewSet, mixins
+from rest_framework.viewsets import GenericViewSet
 from rest_framework import serializers
 from apps.tenant.models import Tenant
-from oauth2_provider.contrib.rest_framework import TokenMatchesOASRequirements
-from oauth2_provider.contrib.rest_framework.authentication import \
-    OAuth2Authentication
+from rest_framework.decorators import action
+from rest_framework.request import Request
+from rest_framework.response import Response
 
 
 class TenantSerializer(serializers.ModelSerializer):
@@ -14,12 +14,20 @@ class TenantSerializer(serializers.ModelSerializer):
 
 
 class TenantViewSet(
-    mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet
+    GenericViewSet
 ):
     queryset = Tenant.objects.all()
     serializer_class = TenantSerializer
-    authentication_classes = [OAuth2Authentication]
-    permission_classes = [TokenMatchesOASRequirements]
     required_alternate_scopes = {
         'GET': [['read']],
     }
+
+    @action(
+        url_path='',
+        detail=False,
+        methods=['GET'],
+        serializer_class=TenantSerializer
+    )
+    def current_tennant(self, request: Request, *args, **kwargs) -> Response:
+        serializer = self.get_serializer(instance=request.user)
+        return Response(data=serializer.data)

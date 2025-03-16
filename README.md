@@ -15,16 +15,31 @@ pip install -r requirements.txt
 ./manage.py runserver
 ```
 
-## OAuth Flask Client
+## OAuth POC
 
-### Initial
+### `authorization_code`
+
+#### Initial
 ```
-cd poc/flask/
+cd poc/authorization-code/
 python -m venv .venv && source .venv
 pip install -r requirements.txt
 ```
 
-### Run Server
+#### Run Server
+```
+./main.py
+```
+### `client_credentials`
+
+#### Initial
+```
+cd poc/client-credentials/
+python -m venv .venv && source .venv
+pip install -r requirements.txt
+```
+
+#### Run Server
 ```
 python main.py
 ```
