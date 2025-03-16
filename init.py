@@ -23,4 +23,17 @@ app, _ = Application.objects.update_or_create(
     }
 )
 
+app, _ = Application.objects.update_or_create(
+    name="POC Client Credential",
+    defaults={
+        'client_id': "poc-client-credential",
+        'client_secret': "super-secret",
+        'client_type': Application.CLIENT_CONFIDENTIAL,
+        'authorization_grant_type': Application.GRANT_CLIENT_CREDENTIALS,
+        # 'redirect_uris': "http://127.0.0.1:5000/callback/",
+        'user': tenant,
+        # 'algorithm': Application.HS256_ALGORITHM
+    }
+)
+
 print(f"[+] Initialized application: {app.name}, Client ID: {app.client_id}")
